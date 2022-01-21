@@ -52,3 +52,11 @@ pub enum Pull {
 pub fn set_pull(pull: Pull, pin: u32) {
     gpio_call(pin, pull as u32, GPIO_BASE + 0xE8, 2);
 }
+
+pub fn map_uart() {
+    set_mode(Mode::Alt0, 14);
+    set_mode(Mode::Alt0, 15);
+
+    set_pull(Pull::Up, 14);
+    set_pull(Pull::Down, 14);
+}

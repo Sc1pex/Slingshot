@@ -8,8 +8,12 @@
 mod boot;
 mod gpio;
 mod panic;
+mod uart;
 
 fn kernel_main() -> ! {
+    uart::init();
+    uart::write_str("Hello, World");
+
     gpio::set_mode(gpio::Mode::Output, 23);
     gpio::set_value(gpio::Value::High, 23);
 
