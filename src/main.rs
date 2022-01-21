@@ -7,23 +7,15 @@
 
 mod boot;
 mod driver;
-mod gpio;
 mod panic;
 mod sync;
 mod uart;
 
-unsafe fn kernel_init() -> ! {
+fn kernel_main() -> ! {
     driver::driver_manager().init();
 
-    kernel_main()
-}
-
-fn kernel_main() -> ! {
     uart::init();
     uart::write_str("Hello, World\n");
-
-    // gpio::set_mode(gpio::Mode::Output, 23);
-    // gpio::set_value(gpio::Value::High, 23);
 
     loop {
         if let Some(x) = uart::read_char(false) {

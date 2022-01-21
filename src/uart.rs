@@ -1,7 +1,5 @@
 use core::ptr::{read_volatile, write_volatile};
 
-use crate::gpio;
-
 const UART_BASE: u32 = 0xFE201000;
 const UART_DR: u32 = UART_BASE + 0x00;
 const UART_FR: u32 = UART_BASE + 0x18;
@@ -23,8 +21,6 @@ pub fn init() {
 
         write_volatile(UART_CR as *mut u32 as *mut _, 1 | (11 << 8));
     }
-
-    gpio::map_uart();
 }
 
 pub fn write_char(c: char) {

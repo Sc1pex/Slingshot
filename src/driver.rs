@@ -19,6 +19,10 @@ impl DriverManager {
         for driver in self.drivers.iter() {
             driver.init();
         }
+
+        for driver in self.drivers.iter() {
+            driver.post_init();
+        }
     }
 }
 
