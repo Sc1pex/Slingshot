@@ -1,10 +1,23 @@
-use super::DeviceDriver;
+use crate::sync::NullLock;
 
-pub struct GPIODriver {}
+use super::DeviceDriver;
+pub struct GPIOInner {}
+
+impl GPIOInner {
+    pub const fn new() -> GPIOInner {
+        GPIOInner {}
+    }
+}
+
+pub struct GPIODriver {
+    inner: NullLock<GPIOInner>,
+}
 
 impl GPIODriver {
     pub const fn new() -> GPIODriver {
-        GPIODriver {}
+        GPIODriver {
+            inner: NullLock::new(GPIOInner::new()),
+        }
     }
 }
 

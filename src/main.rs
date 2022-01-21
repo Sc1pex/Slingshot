@@ -9,6 +9,7 @@ mod boot;
 mod driver;
 mod gpio;
 mod panic;
+mod sync;
 mod uart;
 
 unsafe fn kernel_init() -> ! {
