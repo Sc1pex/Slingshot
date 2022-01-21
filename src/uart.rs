@@ -28,6 +28,10 @@ pub fn init() {
 }
 
 pub fn write_char(c: char) {
+    if c == '\n' {
+        write_char('\r');
+    }
+
     unsafe {
         while (read_volatile(UART_FR as *const u32 as *const _) & ((1 << 5) as u32)) > 0 as u32 {
             asm!("nop");
@@ -40,5 +44,27 @@ pub fn write_char(c: char) {
 pub fn write_str(s: &str) {
     for c in s.chars() {
         write_char(c);
+    }
+}
+
+pub fn read_char(blocking: bool) -> Option<char> {
+    unsafe {
+        if blocking {
+            while (read_volatile(UART_FR as *const u32 as *const _) & ((1 << 4) as u32)) > 0 as u32
+            {
+                asm!("nop");
+            }
+        } else {
+            if (read_volatile(UART_FR as *const u32 as *const _) & ((1 << 4) as u32)) > 0 as u32 {
+                return None;
+            }
+        }
+
+        let mut c = read_volatile(UART_DR as *mut u32 as *mut _) as u8 as char;
+        if c == '\r' {
+            c = '\n';
+        }
+
+        return Some(c);
     }
 }

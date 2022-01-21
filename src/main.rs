@@ -12,10 +12,14 @@ mod uart;
 
 fn kernel_main() -> ! {
     uart::init();
-    uart::write_str("Hello, World");
+    uart::write_str("Hello, World\n");
 
     gpio::set_mode(gpio::Mode::Output, 23);
     gpio::set_value(gpio::Value::High, 23);
 
-    loop {}
+    loop {
+        if let Some(x) = uart::read_char(false) {
+            uart::write_char(x);
+        }
+    }
 }
