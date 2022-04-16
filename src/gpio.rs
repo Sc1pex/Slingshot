@@ -2,7 +2,7 @@
 
 use core::ptr::{read_volatile, write_volatile};
 
-const PERIPHERAL_BASE: u32 = 0xfe000000;
+pub const PERIPHERAL_BASE: u32 = 0xfe000000;
 const GPIO_BASE: u32 = PERIPHERAL_BASE + 0x200000;
 const MAX_PIN: u32 = 53;
 

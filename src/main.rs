@@ -4,10 +4,14 @@
 mod boot;
 mod gpio;
 mod panic;
+mod uart;
 
 fn kernel_main() -> ! {
-    gpio::setup_pin(23, gpio::Mode::Output, gpio::Pull::None);
-    gpio::set_output(23, gpio::Value::High);
+    uart::init();
+    uart::write_string("Hello world");
 
-    loop {}
+    loop {
+        let c = uart::read_char();
+        uart::write_char(c);
+    }
 }
